@@ -14,10 +14,12 @@ def handle_req():
         urls = []
         for line in lines:
             url = line.strip()
-            urls.append(url)
+            url_s = str(url, 'utf-8')
+            urls.append(url_s)
         
         #   Call the function here:
         dict_obj = get_predictions(urls)
+        #print(dict_obj)
         resp = {
             'status': 200,
             'message': 'The data is under data, Thanks',

@@ -47,9 +47,7 @@ def extractData(reddit, urls):
                 "created":[]}
     print('Collecting Data...')
     for url in urls:
-        url_s = str(url, 'utf-8')
-        #print(url_s)
-        submission = reddit.submission(url = url_s)
+        submission = reddit.submission(url = url)
         topics["title"].append(submission.title)
         topics["score"].append(submission.score)
         topics["id"].append(submission.id)
@@ -105,10 +103,11 @@ def create_dict(urls, test_ans):
     return res_dict
 
 def get_predictions(urls):
+
     nltk.download("stopwords")
 
     dataset_df = pd.read_csv('dataset.csv')
-    dataset_df.head()
+    print(dataset_df.head())
 
     client_id = '8DYCKFnYAy-VSg'
     client_secret = 'QoM1hKffGS8PHXy7m4sK3EUgNmk'
@@ -157,6 +156,7 @@ def get_predictions(urls):
     X_train = X_train[:-count_test]
     test_df.reset_index(drop=True, inplace=True)
     print(test_df)
+    #print(X_train.head())
 
     #X_train = pd.concat([X_train, pd.get_dummies(X_train['url'])], axis=1)
     #X_train = pd.concat([X_train, pd.get_dummies(X_train['author'])], axis=1)
@@ -172,18 +172,17 @@ def get_predictions(urls):
     test_df = test_df.drop(cols_to_string, axis=1)
 
     # Preprrocessing
-    
 
     tfidf_vect = TfidfVectorizer(max_features=10000, stop_words='english', min_df=1, binary=0, use_idf=1, smooth_idf=0, sublinear_tf=1)
 
     tfidf_vect.fit(corpus.values.astype('U'))
-    tfidf_vect_vectors = tfidf_vect.transform(corpus.values.astype('U'))
+    #tfidf_vect_vectors = tfidf_vect.transform(corpus.values.astype('U'))
     #col_tfidf = tfidf_transformer.fit_transform(col_vect)
 
-    col_tfidf_df = pd.DataFrame(tfidf_vect_vectors.todense(), columns=tfidf_vect.get_feature_names())
+    #col_tfidf_df = pd.DataFrame(tfidf_vect_vectors.todense(), columns=tfidf_vect.get_feature_names())
 
 
-    X_train = pd.concat([X_train, col_tfidf_df], axis=1)
+    #X_train = pd.concat([X_train, col_tfidf_df], axis=1)
 
     # tfidf of test_df
     tfidf_vect_test = tfidf_vect.transform(corpus_test.values.astype('U'))
