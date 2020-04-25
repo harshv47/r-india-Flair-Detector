@@ -55,7 +55,7 @@ def extractData(reddit):
     print('Collecting Flair Data...')
     flair_count = 1
     for flair in flairs:
-        submissions = subreddit.search(flair, limit=100)
+        submissions = subreddit.search(flair, limit=500)
         for submission in submissions:
             
             topics["flair"].append(flair)
