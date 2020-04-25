@@ -155,7 +155,7 @@ def get_predictions(urls):
     test_df = X_train.tail(count_test)
     X_train = X_train[:-count_test]
     test_df.reset_index(drop=True, inplace=True)
-    print(test_df)
+    #print(test_df)
     #print(X_train.head())
 
     #X_train = pd.concat([X_train, pd.get_dummies(X_train['url'])], axis=1)
@@ -177,19 +177,21 @@ def get_predictions(urls):
 
     tfidf_vect = TfidfVectorizer(max_features=10000, stop_words='english', min_df=1, binary=0, use_idf=1, smooth_idf=0, sublinear_tf=1)
 
+    print('crash location, maybe 1')
+
     tfidf_vect.fit(corpus.values.astype('U'))
     #tfidf_vect_vectors = tfidf_vect.transform(corpus.values.astype('U'))
     #col_tfidf = tfidf_transformer.fit_transform(col_vect)
 
     #col_tfidf_df = pd.DataFrame(tfidf_vect_vectors.todense(), columns=tfidf_vect.get_feature_names())
 
-
+    print('crash location, maybe 2')
     #X_train = pd.concat([X_train, col_tfidf_df], axis=1)
 
     # tfidf of test_df
     tfidf_vect_test = tfidf_vect.transform(corpus_test.values.astype('U'))
 
-    print('crash location, maybe')
+    print('crash location, maybe 3')
 
     col_tfidf_test = pd.DataFrame(tfidf_vect_test.todense(), columns=tfidf_vect.get_feature_names())
 
