@@ -189,6 +189,8 @@ def get_predictions(urls):
     # tfidf of test_df
     tfidf_vect_test = tfidf_vect.transform(corpus_test.values.astype('U'))
 
+    print('crash location, maybe')
+
     col_tfidf_test = pd.DataFrame(tfidf_vect_test.todense(), columns=tfidf_vect.get_feature_names())
 
     print('col_tfidf_test:   ',col_tfidf_test.shape)
