@@ -1,4 +1,6 @@
 {
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.pythonPath": "/home/harshv47/r-india-Flair-Detector/venv/bin/python3",
+    "git.ignoreLimitWarning": true
 }
