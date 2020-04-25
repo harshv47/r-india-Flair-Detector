@@ -171,6 +171,8 @@ def get_predictions(urls):
     corpus_test = test_df['body'] + test_df['comments'] + test_df['title']
     test_df = test_df.drop(cols_to_string, axis=1)
 
+    print('pre sans tfidf done')
+
     # Preprrocessing
 
     tfidf_vect = TfidfVectorizer(max_features=10000, stop_words='english', min_df=1, binary=0, use_idf=1, smooth_idf=0, sublinear_tf=1)
@@ -194,10 +196,13 @@ def get_predictions(urls):
     test_df = pd.concat([test_df, col_tfidf_test], axis=1)
 
     print('test_df shape:   ',test_df.shape)
-    #print(test_df)
+    
+    print('tfidf done')
 
     
     rf = pickle.load(open('models/rf_model.sav', 'rb'))
+
+    print('model loaded')
 
     test_ans = rf.predict(test_df)
     
