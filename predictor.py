@@ -196,7 +196,8 @@ def get_predictions(urls):
 
     print('crash location, maybe 3')
 
-    col_tfidf_test = pd.DataFrame(tfidf_vect_test.todense(), columns=tfidf_vect.get_feature_names())
+    col_names = ['tfidf_' + s for s in tfidf_vect.get_feature_names()]
+    col_tfidf_test = pd.DataFrame(tfidf_vect_test.todense(), columns=col_names)
 
     print('col_tfidf_test:   ',col_tfidf_test.shape)
 
@@ -207,13 +208,13 @@ def get_predictions(urls):
     print('tfidf done')
 
     
-    #rf = pickle.load(open('models/rf_model.sav', 'rb'))
-    catb = pickle.load(open('models/catb_model.sav', 'rb'))
+    rf = pickle.load(open('models/rf_model.sav', 'rb'))
+    #catb = pickle.load(open('models/catb_model.sav', 'rb'))
 
     print('model loaded')
 
-    #test_ans = rf.predict(test_df)
-    test_ans = catb.predict(test_df)
+    test_ans = rf.predict(test_df)
+    #test_ans = catb.predict(test_df)
     
     print('Done with everything!')
 
