@@ -1,27 +1,30 @@
-from flask import Flask, request, jsonify, render_template, session,
-from flask_wtf import FlaskForm
-from wtforms import TextField,SubmitField
-from wtforms.validators import NumberRange
+from flask import Flask, render_template, flash, request, jsonify
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 from predictor import get_predictions
 
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6145f'
 
-class FlowerForm(FlaskForm):
-    sep_len = TextField(‘Sepal Length’)
-    submit = SubmitField(‘Analyze’)
-
-@app.route('/')
-def handle_root():
-
-@app.route('/result',methods = ['POST'])
-def result():
-    if request.method == 'POST':
-        to_predict_list = request.form.to_dict()
-        pred = get_predictions(to_predict_list)
-
-        return render_template("result.html",prediction=pred)
+class ReusableForm(Form):
+    url = TextField('Please enter the post link', validators=[validators.required()])
+    
+    @app.route("/", methods=['GET', 'POST'])
+    def hello():
+        form = ReusableForm(request.form)
+    
+        print(form.errors)
+        if request.method == 'POST':
+            url=request.form['url']
+            pred = get_predictions(url)
+    
+        if form.validate():
+            flash(pred)
+        else:
+            flash('Link is required. ')
+    
+        return render_template('index.html', form=form)
 
 @app.route('/automated_testing', methods=['GET', 'POST'])
 def handle_req():
