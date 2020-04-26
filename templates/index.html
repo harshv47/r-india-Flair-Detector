@@ -1,26 +1,25 @@
-<!doctype html>
-<html>
-   <body>
-    <form class="contact100-form validate-form" name="text-form" action="{% url 'index' %}" method="post">
-        <span class="contact100-form-title">
-            Hi traveller, Wanna decide your post belongs to which flair, just drop the link of your post below and let us decide that for you.
-        </span>
 
-        <div class="wrap-input100 validate-input" data-validate = "Message is required">
-            <span class="label-input100">Link</span>
-            <input type="text" name="url" id="url" placeholder="Paste your link here....."/>
-            <span class="focus-input100"></span>
-        </div>
 
-        <div class="container-contact100-form-btn">
-            <button class="contact100-form-btn" type="submit">
-                <span>
-                    Submit
-                    <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
-                </span>
-            </button>
-            <br><br><br><center><h1 style="color:red;">    {{output}}</h1></center>
-        </div>
+{% block content %}
+    <h1>Reddit Flair Predictor</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.url.label }}<br>
+            {{ form.url(size=64) }}
+            {% for error in form.url.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
     </form>
-   </body>
-</html>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+{% endblock %}
