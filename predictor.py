@@ -149,7 +149,10 @@ def get_predictions(urls):
 
     cols_to_normalize = ['comms_num', 'score']
     for col in cols_to_normalize:
-        X_train[col] = (X_train[col] - X_train[col].mean()) / (X_train[col].max() - X_train[col].min()) + 1
+        X_train[col] = ((X_train[col] - X_train[col].mean()) / (X_train[col].max() - X_train[col].min()) + 1)/2
+
+    # Remove Duplicates
+    X_train = X_train.loc[:,~X_train.columns.duplicated()]
 
     # Recover test_df
     test_df = X_train.tail(count_test)
@@ -204,11 +207,13 @@ def get_predictions(urls):
     print('tfidf done')
 
     
-    rf = pickle.load(open('models/rf_model.sav', 'rb'))
+    #rf = pickle.load(open('models/rf_model.sav', 'rb'))
+    catb = pickle.load(open('models/catb_model.sav', 'rb'))
 
     print('model loaded')
 
-    test_ans = rf.predict(test_df)
+    #test_ans = rf.predict(test_df)
+    test_ans = catb.predict(test_df)
     
     print('Done with everything!')
 

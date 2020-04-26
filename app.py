@@ -1,8 +1,27 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template, session,
+from flask_wtf import FlaskForm
+from wtforms import TextField,SubmitField
+from wtforms.validators import NumberRange
 from predictor import get_predictions
 
 
+
 app = Flask(__name__)
+
+class FlowerForm(FlaskForm):
+    sep_len = TextField(‘Sepal Length’)
+    submit = SubmitField(‘Analyze’)
+
+@app.route('/')
+def handle_root():
+
+@app.route('/result',methods = ['POST'])
+def result():
+    if request.method == 'POST':
+        to_predict_list = request.form.to_dict()
+        pred = get_predictions(to_predict_list)
+
+        return render_template("result.html",prediction=pred)
 
 @app.route('/automated_testing', methods=['GET', 'POST'])
 def handle_req():
